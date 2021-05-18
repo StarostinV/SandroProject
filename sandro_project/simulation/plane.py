@@ -1,7 +1,29 @@
+import cProfile
+
 import numpy as np
 from numpy.core.umath_tests import inner1d
 
-from simulation.beam import Beam
+from beam import Beam
+
+import cProfile, pstats, io
+
+
+def profile(fnc):
+    """A decorator that uses cProfile to profile a function"""
+
+    def inner(*args, **kwargs):
+        pr = cProfile.Profile()
+        pr.enable()
+        retval = fnc(*args, **kwargs)
+        pr.disable()
+        s = io.StringIO()
+        sortby = 'cumulative'
+        ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+        ps.print_stats()
+        print(s.getvalue())
+        return retval
+
+    return inner
 
 
 class RectPlane(object):

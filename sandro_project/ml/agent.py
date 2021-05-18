@@ -58,11 +58,10 @@ class Agent(object):
         :return: torch tensor with shape(samples_per_generation, 2, 6)
         """
         states = None
-        misalignment_list = []
 
         for i in range(self.spg):
             misalignment = self.change_motor_pos(self.random_values(5), normalize=False)
-            misalignment_list.append(misalignment)
+            self.misalignment = misalignment
             pos1, pos2 = self.random_values(), self.random_values()
             pos1_true = self.change_motor_pos(pos1, normalize=False)
             pos2_true = self.change_motor_pos(pos2, normalize=False)
@@ -97,7 +96,7 @@ class Agent(object):
             print(loss / len(start_positions))
         return losses
 
-    def generate_new_models(self, losses: list):
+    def generate_new_models(self, losses: list, gen_number: int):
         """
 
         :param losses: losses for each network
@@ -109,21 +108,26 @@ class Agent(object):
         for i in range(self.num_best_models):
             new_models.append(models_sorted[i])
             for j in range(int((self.num_networks - self.num_best_models) / self.num_best_models)):
-                new_model = self.mutate(models_sorted[i])
+                new_model = self.mutate(models_sorted[i], gen_number)
                 new_models.append(new_model)
             if i < modulo:
-                new_model = self.mutate(models_sorted[i])
+                new_model = self.mutate(models_sorted[i], gen_number)
                 new_models.append(new_model)
         self.models = new_models
 
     @staticmethod
-    def mutate(model, mutation_power: float = 0.1):
+    def mutate(model, gen_number: int):
         """
 
         :param model: neural network
-        :param mutation_power: amount of mutation
+        :param gen_number: current generation number
         :return: mutated neural network
         """
+        if gen_number < 200:
+            mutation_power = 0.1 - (int(gen_number / 20) * 0.01)
+        else:
+            mutation_power = 0.01
+
         new_model = deepcopy(model)
         for param in new_model.parameters():
             param.data += mutation_power * torch.randn_like(param)

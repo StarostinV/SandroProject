@@ -1,6 +1,6 @@
 import numpy as np
 
-from simulation.plane import RectPlane
+from plane import RectPlane
 
 
 class Sample(RectPlane):
