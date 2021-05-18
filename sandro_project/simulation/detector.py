@@ -2,9 +2,9 @@ from copy import deepcopy
 
 import numpy as np
 
-from .incoming import Incoming
-from .plane import RectPlane
-from .sample import Sample
+from simulation.incoming import Incoming
+from simulation.plane import RectPlane
+from simulation.sample import Sample
 
 # step 00 : fix problem with target misalignment
 # step 0 (easiest): train with theta == 0.

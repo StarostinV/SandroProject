@@ -6,10 +6,10 @@ import numpy as np
 
 import torch
 
-from .model import Linear_QNet
-from .device import device
+from ml.model import Linear_QNet
+from ml.device import device
 
-from ..simulation import Scene
+from simulation.scene import Scene
 
 
 class Agent(object):
@@ -27,9 +27,8 @@ class Agent(object):
 
         self.props = (inc_props, sample_props, det_props)
         self.detection_angle = detection_angle
-        self.misalignment = self.change_motor_pos(self.random_values(5), normalize=False)
-
         self.motor_ranges = motor_ranges
+        self.misalignment = self.change_motor_pos(self.random_values(5), normalize=False)
         self.spg = samples_per_generation
         self.num_inputs = num_inputs
         self.num_best_models = num_best_models

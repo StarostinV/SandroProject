@@ -3,8 +3,8 @@ import numpy as np
 
 from numpy.core.umath_tests import inner1d
 
-from .beam import Beam
-from .plane import RectPlane
+from simulation.beam import Beam
+from simulation.plane import RectPlane
 
 
 class Incoming(RectPlane):

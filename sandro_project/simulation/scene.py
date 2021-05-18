@@ -1,8 +1,8 @@
 import torch
 
-from .incoming import Incoming
-from .sample import Sample
-from .detector import Detector
+from simulation.incoming import Incoming
+from simulation.sample import Sample
+from simulation.detector import Detector
 
 
 class Scene(object):

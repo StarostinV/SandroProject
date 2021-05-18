@@ -1,7 +1,7 @@
 import numpy as np
 from numpy.core.umath_tests import inner1d
 
-from .beam import Beam
+from simulation.beam import Beam
 
 
 class RectPlane(object):

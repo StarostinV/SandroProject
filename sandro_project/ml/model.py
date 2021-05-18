@@ -5,8 +5,8 @@ import numpy as np
 import torch
 from torch import nn
 
-from .device import device
-from ..simulation import Scene
+from ml.device import device
+from simulation.scene import Scene
 
 
 class Linear_QNet(nn.Module):
@@ -51,7 +51,7 @@ class Linear_QNet(nn.Module):
         x[1] = pos2
         for i in range(2, agent.num_inputs):
             normalized_action = self(x.flatten())
-            true_action = agent.change_motor_pos(normalized_action, agent.motor_ranges, normalize=False)
+            true_action = agent.change_motor_pos(normalized_action, normalize=False)
 
             scene = Scene(*agent.props, agent.misalignment + true_action, agent.detection_angle)
             intensity = torch.tensor([np.sum(scene.detector.beam_profile.intensity).item()]).detach().to(device)
@@ -66,4 +66,4 @@ class Linear_QNet(nn.Module):
                 result[-1] = result[-1] / max_intensity
             x[i] = result
 
-        return agent.change_motor_pos(self(x.flatten()), agent.motor_ranges, normalize=False)
+        return agent.change_motor_pos(self(x.flatten()), normalize=False)
