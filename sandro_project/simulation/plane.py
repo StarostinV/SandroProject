@@ -87,7 +87,7 @@ class RectPlane(object):
         u = dv * fac
         result = coords + u
         if len(coords.T[0].shape) > 0:
-            result[np.where(fac.reshape(coords.T[0].shape[0]) < 0)] = np.array([-10000, -10000, -10000])
+            result[np.where(fac.reshape(coords.T[0].shape[0]) < 0)] = np.array([-100, -100, -100])
         return result
 
     def reflection(self, line: np.array([float])) -> np.array([float]):
@@ -125,6 +125,7 @@ class RectPlane(object):
         cond_together = cond1 & cond2 & cond3 & cond4
         indices = np.where(cond_together)
         self.beam_profile.coords = intersect[indices]
+        #point = self.beam_profile.coords[0]
         self.beam_profile.dv = self.reflection(np.stack([incoming.parametric[0], incoming.beam_profile.dv]))
         if apply_noise:
             noise_level = 0.0001

@@ -1,5 +1,3 @@
-#import torch
-
 from incoming import Incoming
 from sample import Sample
 from detector import Detector
@@ -21,8 +19,6 @@ class Scene(object):
         :param detector_props: Tuple(length, width)
         :param misalignment: Tuple(chi, omega, x, y, z)
         """
-        """if torch.is_tensor(misalignment):
-            misalignment = misalignment.cpu().detach().numpy()"""
 
         self.incoming = Incoming(*incoming_props, det_distance=detection_distance)
         self.sample = Sample(*sample_props, det_angle=theta)

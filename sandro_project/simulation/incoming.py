@@ -9,7 +9,7 @@ from plane import RectPlane
 
 class Incoming(RectPlane):
     def __init__(self, length: float, width: float, shape: Tuple[str, float, float], inc_intensity: float,
-                 gauss: bool = True, amp: float = 1.0, sigma: float = 1.0, ray_numb: float = 1000,
+                 gauss: bool = True, amp: float = 1.0, sigma: float = 1.0, ray_numb: float = 10000,
                  det_distance: float = 10.0):
         super().__init__(length, width)
         self.center = np.array([det_distance, 0, 0])

@@ -20,8 +20,8 @@ class Sample(RectPlane):
         :param misalignment: Tuple(chi, omega, x, y, z)
         :return: Set the misaligned position of the sample
         """
-        self.rotate_x(misalignment[0])
-        self.rotate_y(misalignment[1])
-        self.shift_x(misalignment[2])
-        self.shift_y(misalignment[3])
-        self.shift_z(misalignment[4])
+        self.rotate_x(misalignment[0].item())
+        self.rotate_y(misalignment[1].item())
+        self.shift_x(misalignment[2].item())
+        self.shift_y(misalignment[3].item())
+        self.shift_z(misalignment[4].item())
