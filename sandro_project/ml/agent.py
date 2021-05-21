@@ -6,10 +6,10 @@ import numpy as np
 
 import torch
 
-from ml.model import Linear_QNet
-from ml.device import device
+from .model import Linear_QNet
+from .device import device
 
-from simulation.scene import Scene
+from ..simulation import Scene
 
 
 class Agent(object):

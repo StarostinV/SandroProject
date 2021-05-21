@@ -132,3 +132,7 @@ class RectPlane(object):
             self.beam_profile.intensity = np.random.poisson(incoming.beam_profile.intensity[indices] / noise_level) * noise_level
         else:
             self.beam_profile.intensity = incoming.beam_profile.intensity[indices]
+
+
+# Some general API for vector products:
+# np.einsum(cb, cb, 'ij,ij') = a11 * b11 + a12 * b12 + ...

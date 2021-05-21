@@ -7,6 +7,7 @@ from incoming import Incoming
 from plane import RectPlane
 from sample import Sample
 
+
 # step 00 : fix problem with target misalignment
 # step 0 (easiest): train with theta == 0.
 # if slow, optimize code
@@ -29,6 +30,72 @@ class Detector(RectPlane):
         coords_diff = (coords_diff.T * np.array([[1], [1], [-1]])).T
         dv2 = np.array([line[1][0], line[1][2], line[1][1]])
         return coords_diff.dot(dv2) < 0
+
+    def new_shadow_scan(self, incoming: Incoming, sample: Sample, apply_noise: bool):
+        """
+
+        First condition (above the sample):
+
+        x axis
+        -
+        *-----* <- either these edges have higher z
+        -------
+        -------
+        -------
+        -------
+        *-----* -------> y axis  <- or these edges have higher z
+
+        (y, z) projection
+
+        (x1, y1, z1)
+        *
+           -
+             -
+                -
+                   -
+                      * (x2, y2, z2)
+
+                *
+               ---
+              *------*
+
+
+        z - z1 >= (y - y1) * (z2 - z1) / (y2 - y1)
+
+        Second condition (within the detector):
+
+        - detector_width / 2 <= y <= detector_width / 2
+
+        - detector_height / 2 <= z <= detector_height / 2
+
+
+        :param incoming:
+        :param sample:
+        :param apply_noise:
+        :return:
+        """
+        if sample.edges[0, 2] < sample.edges[1, 2]:
+            idx = [1, 2]
+        else:
+            idx = [0, 3]
+
+        y1, y2 = sample.edges[idx, 1]
+        z1, z2 = sample.edges[idx, 2]
+
+        y, z = incoming.beam_profile.coords[:, 1], incoming.beam_profile.coords[:, 2]
+
+        cond1 = (z - z1) >= (y - y1) * (z2 - z1) / (y2 - y1)
+
+        # TODO: add the second condition
+
+        self.beam_profile.coords = self.beam_profile.coords[cond1]
+
+        if apply_noise:
+            noise_level = 0.0001
+            self.beam_profile.intensity = \
+                np.random.poisson(incoming.beam_profile.intensity[cond1] / noise_level) * noise_level
+        else:
+            self.beam_profile.intensity = incoming.beam_profile.intensity[cond1]
 
     def shadow_scan(self, incoming: Incoming, sample: Sample, apply_noise: bool):
         """

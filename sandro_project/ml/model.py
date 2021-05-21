@@ -5,8 +5,8 @@ import numpy as np
 import torch
 from torch import nn
 
-from ml.device import device
-from simulation.scene import Scene
+from .device import device
+from ..simulation import Scene
 
 
 class Linear_QNet(nn.Module):

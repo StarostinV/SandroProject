@@ -2,8 +2,8 @@ import os
 
 import torch
 
-from ml.agent import Agent
-from ml.device import device
+from .agent import Agent
+from .device import device
 
 DETECTION_ANGLE = 0
 
