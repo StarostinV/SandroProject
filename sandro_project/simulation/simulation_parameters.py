@@ -2,11 +2,12 @@ import torch
 from ml.device import device
 
 DETECTION_ANGLE = 20
+DETECTION_DISTANCE = 10
 
 # IncomingBeam:
 inc_length = 2
 inc_width = 2
-inc_beam_shape = ("round", 0.5, 0.9)
+inc_beam_shape = ("round", 0.6, 0.6)
 inc_intensity = 1
 gauss = True
 INC_PROPS = (inc_length, inc_width, inc_beam_shape, inc_intensity, gauss)
@@ -18,8 +19,8 @@ sample_thickness = 0
 SAMPLE_PROPS = (sample_length, sample_width, sample_thickness)
 
 # Detector:
-detector_length = 5
-detector_width = 5
+detector_length = 2
+detector_width = 2
 DET_PROPS = (detector_length, detector_width)
 
 """

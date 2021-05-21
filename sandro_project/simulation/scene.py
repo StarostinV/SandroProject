@@ -11,7 +11,7 @@ class Scene(object):
                  misalignment,
                  theta,
                  apply_noise=True,
-                 detection_distance=10.0):
+                 detection_distance=10):
         """
 
         :param incoming_props: Tuple(length, width, shape: Tuple[str, float, float], inc_intensity, max_amplitude, sigma, ray_numbers)
